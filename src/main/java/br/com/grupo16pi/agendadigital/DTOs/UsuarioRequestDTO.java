@@ -1,68 +1,46 @@
-package br.com.grupo16pi.agendadigital.model;
+package br.com.grupo16pi.agendadigital.DTOs;
 
 import java.time.LocalDate;
 
-import br.com.grupo16pi.agendadigital.enums.UfEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.hibernate.validator.constraints.br.CPF;
 
-@Entity
-@Table(name = "usuarios")
-public class Usuario {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UsuarioRequestDTO {
 
-    @Column(nullable = false)
+    @NotBlank(message = "O nome é obrigatório")
     private String nome;
 
-    @Column(nullable = false)
+    @Past(message = "A data de nascimento não pode ser o dia de hoje ou uma data futura")
     private LocalDate dataNascimento;
 
-    @Column(nullable = false, unique = true)
+    @NotBlank(message = "O CPF é obrigatório")
+    @CPF(message = "CPF inválido")
     private String cpf;
 
-    @Column(nullable = false, unique = true)
+    @NotBlank(message = "O número do SUS é obrigatório")
     private String numeroSus;
 
-    @Column
-    private String telCelular;
-
-    @Column(unique = true)
+    @Email(message = "O e-mail deve ter sintaxe válida")
     private String email;
 
     private String telefone;
+    private String telCelular;
     private String logradouro;
     private String numero;
-
-    @Column
     private String complemento;
-
     private String cep;
     private String bairro;
     private String cidade;
 
-    @Enumerated(EnumType.STRING) // Salva o Enum como texto no banco de dados
-    @Column(nullable = false)
-    private UfEnum uf;
+    @NotBlank(message = "A UF é obrigatória")
+    private String uf;
+
 
     // Getters e Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    
     public String getNome() {
         return nome;
     }
@@ -95,12 +73,28 @@ public class Usuario {
         this.numeroSus = numeroSus;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getTelefone() {
         return telefone;
     }
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public String getTelCelular() {
+        return telCelular;
+    }
+
+    public void setTelCelular(String telCelular) {
+        this.telCelular = telCelular;
     }
 
     public String getLogradouro() {
@@ -119,12 +113,12 @@ public class Usuario {
         this.numero = numero;
     }
 
-        public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-    
     public String getComplemento() {
         return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
     }
 
     public String getCep() {
@@ -151,27 +145,11 @@ public class Usuario {
         this.cidade = cidade;
     }
 
-    public UfEnum getUf() {
+    public String getUf() {
         return uf;
     }
 
-    public void setUf(UfEnum uf) {
+    public void setUf(String uf) {
         this.uf = uf;
-    }
-
-    public String getTelCelular() {
-        return telCelular;
-    }
-
-    public void setTelCelular(String telCelular) {
-        this.telCelular = telCelular;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }
